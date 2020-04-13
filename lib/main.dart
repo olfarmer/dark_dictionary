@@ -27,11 +27,11 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  int _counter = 0;
+  String _searchTerm = "";
 
-  void _incrementCounter() {
+  void _performSearch(String term){
     setState(() {
-      _counter++;
+      _searchTerm = term;
     });
   }
 
@@ -44,28 +44,23 @@ class _SearchPageState extends State<SearchPage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
+              'You searched $_searchTerm',
               style: Theme.of(context).textTheme.display1,
+              textAlign: TextAlign.left,
             ),
             TextField(
               decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Enter a search term'
+                  hintText: 'Enter a search term',
               ),
+              textInputAction: TextInputAction.search,
+              onSubmitted: _performSearch,
             ),
           ],
         ),
-      ),
-
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
       ),
     );
   }
