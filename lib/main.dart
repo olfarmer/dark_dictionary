@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Dark dictionary',
       theme: ThemeData(
           primarySwatch: Colors.lightBlue,
           brightness: Brightness.dark
@@ -24,6 +24,7 @@ class SearchPage extends StatefulWidget {
   SearchPage({Key key, this.title}) : super(key: key);
 
   final String title;
+  final Dictionary dictionary = Dictionary();
 
   @override
   _SearchPageState createState() => _SearchPageState();
@@ -40,14 +41,19 @@ class Dictionary{
   }
 
   loadDirectory() async {
-    var file = await _localDicFile;
-    entries = await file.readAsLines();
+    try{
+      var file = await _localDicFile;
+      entries = await file.readAsLines();
+    } catch(e){
+      print("Error reading the file");
+    }
+
   }
 
-  String getDictionaryEntries() {
-    if(entries.length != 0){
-        
-    }
+  List<String> searchDictionaryEntries(String searchTerm) {
+    return entries.where((e){
+      return e.split(" ").contains(searchTerm);
+    }).take(10).toList();
   }
 
 
