@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 
 void main() => runApp(MyApp());
 
@@ -24,6 +27,37 @@ class SearchPage extends StatefulWidget {
 
   @override
   _SearchPageState createState() => _SearchPageState();
+
+
+}
+
+class Dictionary{
+
+  final entries = [0];
+
+  Dictionary(){
+    var file = _localDicFile;
+
+  }
+
+  Future<String> getDictionaryEntries() async {
+      if(entries.length == 0){
+
+      }
+  }
+
+
+
+  Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+
+    return directory.path;
+  }
+
+  Future<File> get _localDicFile async {
+    final path = await _localPath;
+    return File('$path/dic');
+  }
 }
 
 class _SearchPageState extends State<SearchPage> {
