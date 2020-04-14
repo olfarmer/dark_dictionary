@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() => runApp(MyApp());
 
@@ -42,8 +44,21 @@ class Dictionary{
 
   loadDirectory() async {
     try{
-      var file = await _localDicFile;
-      entries = await file.readAsLines();
+      if(await Permission.storage.request().isGranted) {
+        var file = await _localDicFile;
+
+        if (await file.exists()) {
+          entries = await file.readAsLines();
+        } else {
+          file = await FilePicker.getFile();
+
+          //Move file to correct path
+          final path = await _localPath;
+          file.copy('$path/dic');
+        }
+      } else {
+        print("No IO permission");
+      }
     } catch(e){
       print("Error reading the file");
     }
@@ -76,6 +91,7 @@ class _SearchPageState extends State<SearchPage> {
   void _performSearch(String term){
     setState(() {
       _searchTerm = term;
+      
     });
   }
 
