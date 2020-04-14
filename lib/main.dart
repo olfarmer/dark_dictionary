@@ -27,6 +27,7 @@ class SearchPage extends StatefulWidget {
 
   final String title;
   final Dictionary dictionary = Dictionary();
+  final textStyle = TextStyle(fontSize: 25,color: Colors.white);
 
   @override
   _SearchPageState createState() => _SearchPageState();
@@ -88,16 +89,19 @@ class Dictionary{
 class _SearchPageState extends State<SearchPage> {
   String _searchTerm = "";
   List<String> _result = [""];
+  final TextEditingController _searchController = new TextEditingController();
 
   void _performSearch(String term){
     setState(() {
       _searchTerm = term;
       _result = widget.dictionary.searchDictionaryEntries(term);
+      _searchController.clear();
     });
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -107,25 +111,28 @@ class _SearchPageState extends State<SearchPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(
-              'You searched $_searchTerm',
-              style: Theme.of(context).textTheme.display1,
-              textAlign: TextAlign.left,
-            ),
             TextField(
+              controller: _searchController,
               decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: 'Enter a search term',
+                hintText: 'Enter a search term...',
               ),
               textInputAction: TextInputAction.search,
               onSubmitted: _performSearch,
+              style: widget.textStyle,
             ),
+            Text(
+              _searchTerm.length > 0 ? '$_searchTerm:' : "",
+              style: Theme.of(context).textTheme.display1,
+              textAlign: TextAlign.left,
+            ),
+            SizedBox(height: 20),
             ListView.builder(
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
               itemCount: _result?.length,
               itemBuilder: (BuildContext context, int index){
-                return Text(_result[index]);
+                return Text(_result[index].split("\t").skip(1).join("\t"), style: widget.textStyle,);
               },
             )
           ],
