@@ -33,16 +33,20 @@ class SearchPage extends StatefulWidget {
 
 class Dictionary{
 
-  final entries = [0];
+  var entries = [""];
 
-  Dictionary(){
-    var file = _localDicFile;
-
+  Dictionary() {
+    loadDirectory();
   }
 
-  Future<String> getDictionaryEntries() async {
-    if(entries.length == 0){
+  loadDirectory() async {
+    var file = await _localDicFile;
+    entries = await file.readAsLines();
+  }
 
+  String getDictionaryEntries() {
+    if(entries.length != 0){
+        
     }
   }
 
