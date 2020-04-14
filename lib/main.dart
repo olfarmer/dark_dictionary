@@ -67,7 +67,7 @@ class Dictionary{
 
   List<String> searchDictionaryEntries(String searchTerm) {
     return entries.where((e){
-      return e.split(" ").contains(searchTerm);
+      return e.split("\t").contains(searchTerm);
     }).take(10).toList();
   }
 
@@ -87,11 +87,12 @@ class Dictionary{
 
 class _SearchPageState extends State<SearchPage> {
   String _searchTerm = "";
+  List<String> _result = [""];
 
   void _performSearch(String term){
     setState(() {
       _searchTerm = term;
-      
+      _result = widget.dictionary.searchDictionaryEntries(term);
     });
   }
 
@@ -119,6 +120,14 @@ class _SearchPageState extends State<SearchPage> {
               textInputAction: TextInputAction.search,
               onSubmitted: _performSearch,
             ),
+            ListView.builder(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemCount: _result?.length,
+              itemBuilder: (BuildContext context, int index){
+                return Text(_result[index]);
+              },
+            )
           ],
         ),
       ),
