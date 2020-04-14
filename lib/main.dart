@@ -12,8 +12,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.lightBlue,
-        brightness: Brightness.dark
+          primarySwatch: Colors.lightBlue,
+          brightness: Brightness.dark
       ),
       home: SearchPage(title: 'Search for words'),
     );
@@ -41,9 +41,9 @@ class Dictionary{
   }
 
   Future<String> getDictionaryEntries() async {
-      if(entries.length == 0){
+    if(entries.length == 0){
 
-      }
+    }
   }
 
 
@@ -87,8 +87,8 @@ class _SearchPageState extends State<SearchPage> {
             ),
             TextField(
               decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'Enter a search term',
+                border: InputBorder.none,
+                hintText: 'Enter a search term',
               ),
               textInputAction: TextInputAction.search,
               onSubmitted: _performSearch,
