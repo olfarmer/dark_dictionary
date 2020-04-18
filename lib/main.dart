@@ -1,20 +1,15 @@
-
-
 import 'package:dark_dictionary/dictionary.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Dark dictionary',
       theme: ThemeData(
-          primarySwatch: Colors.lightBlue,
-          brightness: Brightness.dark
-      ),
+          primarySwatch: Colors.lightBlue, brightness: Brightness.dark),
       home: SearchPage(title: 'Search for words'),
     );
   }
@@ -25,22 +20,18 @@ class SearchPage extends StatefulWidget {
 
   final String title;
   final Dictionary dictionary = Dictionary();
-  final textStyle = TextStyle(fontSize: 25,color: Colors.white);
+  final textStyle = TextStyle(fontSize: 25, color: Colors.white);
 
   @override
   _SearchPageState createState() => _SearchPageState();
-
-
 }
-
-
 
 class _SearchPageState extends State<SearchPage> {
   String _searchTerm = "";
   List<String> _result = [""];
   final TextEditingController _searchController = new TextEditingController();
 
-  void _performSearch(String term){
+  void _performSearch(String term) {
     setState(() {
       _searchTerm = term;
       _result = widget.dictionary.searchDictionaryEntries(term);
@@ -50,7 +41,6 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -76,13 +66,19 @@ class _SearchPageState extends State<SearchPage> {
               textAlign: TextAlign.left,
             ),
             SizedBox(height: 20),
-            ListView.builder(
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              itemCount: _result?.length,
-              itemBuilder: (BuildContext context, int index){
-                return Text(_result[index].split("\t").skip(1).join("\t"), style: widget.textStyle,);
-              },
+            Container(
+              height: 500,
+              child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                //shrinkWrap: true,
+                itemCount: _result?.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Text(
+                    _result[index].split("\t").skip(1).join("\t"),
+                    style: widget.textStyle,
+                  );
+                },
+              ),
             )
           ],
         ),
