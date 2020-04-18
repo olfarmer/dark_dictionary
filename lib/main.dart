@@ -67,16 +67,32 @@ class _SearchPageState extends State<SearchPage> {
             ),
             SizedBox(height: 20),
             Container(
-              height: 500,
+              height: 400,
               child: ListView.builder(
                 scrollDirection: Axis.vertical,
                 //shrinkWrap: true,
                 itemCount: _result?.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return Text(
-                    _result[index].split("\t").skip(1).join("\t"),
-                    style: widget.textStyle,
-                  );
+                  return Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          _result[index].split("\t").first + ":",
+                          style: widget.textStyle,
+                          textAlign: TextAlign.left,
+                        ),
+                        SizedBox(height: 10),
+                        FlatButton(
+                          child: Text(
+                            _result[index].split("\t").skip(1).join(" "),
+                            style: widget.textStyle,
+                            textAlign: TextAlign.left,
+                          ),
+                          onPressed: () {/*TODO Anki support*/},
+                        ),
+                        SizedBox(height: 20),
+                      ]);
                 },
               ),
             )
