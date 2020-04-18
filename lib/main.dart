@@ -28,13 +28,19 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   String _searchTerm = "";
-  List<String> _result = [""];
+  List<List<String>> _result = new List<List<String>>();
   final TextEditingController _searchController = new TextEditingController();
 
   void _performSearch(String term) {
     setState(() {
       _searchTerm = term;
-      _result = widget.dictionary.searchDictionaryEntries(term);
+
+      try{
+        _result = widget.dictionary.searchDictionaryEntries(term);
+      } catch(ex){
+        print(ex);
+      }
+
       _searchController.clear();
     });
   }
@@ -68,33 +74,7 @@ class _SearchPageState extends State<SearchPage> {
             SizedBox(height: 20),
             Container(
               height: 400,
-              child: ListView.builder(
-                scrollDirection: Axis.vertical,
-                //shrinkWrap: true,
-                itemCount: _result?.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          _result[index].split("\t").first + ":",
-                          style: widget.textStyle,
-                          textAlign: TextAlign.left,
-                        ),
-                        SizedBox(height: 10),
-                        FlatButton(
-                          child: Text(
-                            _result[index].split("\t").skip(1).join(" "),
-                            style: widget.textStyle,
-                            textAlign: TextAlign.left,
-                          ),
-                          onPressed: () {/*TODO Anki support*/},
-                        ),
-                        SizedBox(height: 20),
-                      ]);
-                },
-              ),
+              child: widget.dictionary.buildContainerByResult(_result)
             )
           ],
         ),
